@@ -1,12 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('v2/test')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get(':type/:id')
+  async getChildsByParentTypeAndId(
+    @Param('type') type: string,
+    @Param('id') id: string,
+  ) {
+    console.log(
+      `getChildsByParentTypeAndId called with type '${type}' and id '${id}'`,
+    );
+  }
+
+  @Get(':id/token')
+  async getChildTokenByChildId(@Param('id') id: string) {
+    console.log(`getChildTokenByChildId called with id '${id}'`);
   }
 }
